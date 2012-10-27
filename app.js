@@ -14,17 +14,23 @@ app.use(express.static(__dirname + '/public'));
 // });
 
 var clientSockets = [];
+var controlSocket = null;
 var currentId = 0;
 var notes = {}
 console.log("WWWWWWWait");
 
 io.of('/control').on('connection', function (socket) {
+
+  socket.emit('news', {clientCount: clientSockets.length});
+
+  controlSocket = socket;
+
   console.log("CONNECT control");
   socket.on('noteon', function (data) {
+    console.log("noteon", data.note);
     if (notes[data.note]) return;
     if (clientSockets.length < 1) return;
 
-    console.log("noteon", data.note);
 
 
     var sendToNext = function(data, count) {
@@ -62,6 +68,7 @@ io.of('/control').on('connection', function (socket) {
 
 io.of('/play').on('connection', function (socket) {
   clientSockets.push(socket);
+  if (controlSocket) controlSocket.emit("news", {clientCount: clientSockets.length});
   socket.emit("news", {'name': 'test'});
 
   socket.on('my other event', function (data) {
@@ -69,6 +76,7 @@ io.of('/play').on('connection', function (socket) {
   });
   socket.on('disconnect', function() {
     console.log("disconnect", socket);
+    if (controlSocket) controlSocket.emit("news", {clientCount: clientSockets.length});
     clientSockets = clientSockets.filter(function(obj) {
       return (obj !== socket);
     });

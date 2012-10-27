@@ -30,9 +30,10 @@
       x = 1.0 * (x / $el.width());
       y = 1.0 * (y / $el.height());
 
-      var note = clampToPentatonics(Math.floor(100 * x)-1, 'mayor');
+      var note = clampToPentatonics(Math.floor(60 * x)+10, 'mayor');
       currentNotes[id] = note
       socket.emit('noteon', { note: note, velocity: 1.0-y });
+      console.log("sent note", note, 1.0-y);
     };
 
     var removeNote = function(id) {
@@ -76,8 +77,9 @@
     });
 
     socket.on('news', function (data) {
-      console.log(data);
-      socket.emit('my other event', { my: 'data' });
+      if (data.clientCount) {
+        $('.status-display').html("" + data.clientCount + " clients connected.");
+      }
     });
   });
 
