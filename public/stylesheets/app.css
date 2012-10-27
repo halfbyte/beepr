@@ -1,0 +1,43 @@
+body {
+  background: #000;
+  font-family: "Helvetica Neue", Helvetica, sans-serif;
+  font-weight: 100;
+  padding: 0;
+}
+
+body.control {
+  color: #ee0;
+}
+
+body.player {
+  color: #eee;
+}
+
+h1 { font-weight: 100;}
+
+.note-input {
+  margin: 0 auto;
+  width: 80%;
+  height: 20em;
+  border: 10px solid #ee0;
+  position: relative;
+}
+
+.status-display {
+  font-family: Courier, monospace;
+  font-weight: bold;
+  color: #080;
+}
+
+.status-display.error {
+  color: #800;
+}
+
+.tools {
+  margin-top: 1em;
+  text-align: center;
+}
+
+#panic {
+  font-size: 2em;
+}
