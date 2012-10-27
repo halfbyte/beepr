@@ -37,7 +37,10 @@
       console.log('note on', note);
       var freq = that.getNoteFreq(note);
 
-      that.filter.frequency.value = 100.0 + (1000.0 * velo);
+      that.filter.frequency.setValueAtTime(freq / 2, that.ca.currentTime);
+      that.filter.frequency.linearRampToValueAtTime((freq / 2) + (1000.0 * velo), that.ca.currentTime + that.attack);
+
+
       that.osc1 = that.ca.createOscillator();
       that.osc1.type = 2;
       that.osc1.connect(that.filter);
@@ -57,6 +60,7 @@
     that.noteoff = function() {
       that.env.gain.setValueAtTime(1.0, that.ca.currentTime);
       that.env.gain.linearRampToValueAtTime(0.0, that.ca.currentTime + that.decay);
+      that.filter.frequency.linearRampToValueAtTime((that.osc1.frequency.value / 2), that.ca.currentTime + that.decay);
       that.osc1.noteOff(that.ca.currentTime + that.decay);
       that.osc2.noteOff(that.ca.currentTime + that.decay);
     };
@@ -64,12 +68,33 @@
     that.env = that.ca.createGainNode();
     that.mixer = that.ca.createGainNode();
     that.env.connect(that.mixer);
-    that.mixer.gain.value = 0.4;
+    that.mixer.gain.value = 0.3;
     that.mixer.connect(that.ca.destination);
     that.filter = that.ca.createBiquadFilter();
     that.filter.type = that.filter.LOWPASS;
 
-    that.filter.Q.value = 0.8;
+    that.delay = that.ca.createDelayNode();
+    that.delay.delayTime.value = 0.500;
+    that.delayFilter = that.ca.createBiquadFilter();
+    that.delayFilter.type = that.delayFilter.HIGHPASS;
+    that.delayFilter.frequency.value = 500.0;
+    that.delayFilter.Q.value = 0.6;
+    that.delay.connect(that.delayFilter);
+    that.delayFeedbackGain = that.ca.createGainNode();
+    that.delayFeedbackGain.gain.value = 0.6;
+    that.delayFilter.connect(that.delayFeedbackGain);
+
+    that.delayOutGain = that.ca.createGainNode();
+    that.delayOutGain.gain.value = 0.3;
+    that.delayFilter.connect(that.delayOutGain);
+
+    that.delayFeedbackGain.connect(that.delay);
+    that.delayOutGain.connect(that.ca.destination);
+    that.mixer.connect(that.delay);
+
+
+
+    that.filter.Q.value = 10.0;
     that.filter.connect(that.env);
 
 
