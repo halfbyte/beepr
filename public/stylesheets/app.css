@@ -98,3 +98,12 @@ h1 { font-weight: 100; padding: 0 0 0.5em 0; margin:0;}
   border: 1px solid #800;
 }
 #clickable { height: 1000px; text-align: center; font-size: 3em; background: #ccc; color: #000;}
+
+.big-link {
+  font-family: monospace;
+
+  font-size: 10em;
+  font-weight: bold;
+  text-align: center;
+}
+.big-link a { text-decoration: none;}
