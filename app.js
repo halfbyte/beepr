@@ -38,22 +38,26 @@ io.of('/control').on('connection', function (socket) {
       var client = clientSockets[currentId];
       // console.log(clientSockets[currentId]);
       console.log("trying", client.id)
-      client.emit("noteon", data, function(accepted) {
-        if (accepted) {
-          console.log("saving", client.id)
-          notes[data.note] = {client: client};
-        } else if (count < 10) {
-          sendToNext(data, count + 1);
-        }
-      });
+      if (!client.playing) {
+        client.playing = true;
+        client.emit('noteon', data);
+        console.log("saving", client.id)
+        notes[data.note] = {client: client};
+      } else {
+        sendToNext(data, count + 1);
+      }
     };
     sendToNext(data, 0);
   });
 
   socket.on('noteoff', function(data) {
+    console.log('noteoff')
     if (!notes[data.note]) return;
-    console.log("noteoff", data.note, notes[data.note].client.id);
-    notes[data.note].client.emit("noteoff", {});
+    var client = notes[data.note].client;
+    console.log("noteoff", data.note, client.id);
+    client.emit("noteoff", {});
+    client.playing = false;
+
     delete notes[data.note];
   });
 
@@ -67,6 +71,7 @@ io.of('/control').on('connection', function (socket) {
 });
 
 io.of('/play').on('connection', function (socket) {
+  socket.playing = false;
   clientSockets.push(socket);
   if (controlSocket) controlSocket.emit("news", {clientCount: clientSockets.length});
   socket.emit("news", {'name': 'test'});

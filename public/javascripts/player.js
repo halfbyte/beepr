@@ -159,10 +159,9 @@
       $(this).remove();
       $('#canvas').css('height', '50%');
     })
-    socket.on('noteon', function (data, fn) {
+    socket.on('noteon', function (data) {
       var success = synth.noteon(data.note, data.velocity);
       if (success) visualizer.noteon(data.note, data.velocity);
-      fn(success);
     });
     socket.on('noteoff', function (data) {
       visualizer.noteoff();

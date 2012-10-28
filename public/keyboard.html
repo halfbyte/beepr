@@ -10,10 +10,15 @@
   </head>
   <body class="control">
     <h1>beepr.contrl.</h1>
+    <fieldset>
+      <label><input type="radio" name="scale" value="minor" id="scale_minor">Minor</label>
+      <label><input type="radio" name="scale" value="mayor" id="scale_mayor" checked>Mayor</label>
+    </fieldset>
+    <canvas id="canvas" class="note-input" width="1000" height="600"></canvas>
     <div class="status-display"></div>
-    <div class="note-input"></div>
     <div class="tools">
       <button id="panic">PANIC!</button>
     </div>
+    <footer>&copy; 2012 <a href="http://jan.krutisch.de/">Jan Krutisch</a> / <a href="about.html">about this hack</a></footer>
   </body>
 </html>

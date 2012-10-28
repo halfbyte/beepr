@@ -12,22 +12,62 @@ body.control {
 body.player {
   color: #eee;
 }
+body.about {
+  color: #ccf;
+}
+
+.about p {
+  width: 20em;
+}
+
+footer {
+  margin-top: 5em;
+  display: block;
+  color: #fff;
+  text-align: center;
+}
+
+a:link, a:visited {
+  color: #cc0;
+}
+a:hover {
+  color: #ff0;
+}
+
+fieldset {
+  border: none;
+  text-align: center;
+}
+
+fieldset label {
+  font-size: 1em;
+}
+
+fieldset input {
+  width: 1.5em;
+  height: 1.5em;
+  border: 1px solid black;
+}
+
 
 h1 { font-weight: 100; padding: 0 0 0.5em 0; margin:0;}
 
 .note-input {
+  display: block;
   margin: 0 auto;
-  width: 90%;
-  height: 20em;
-  border: 10px solid #ee0;
-  position: relative;
+  width: 98%;
+  height: 25em;
+  border: 5px solid #ee0;
+  border-radius: 10px;
+  background: #222;
+  /* position: relative; */
 }
 
 .status-display {
   font-family: Courier, monospace;
   font-weight: bold;
   color: #080;
-  margin-bottom: 0.5em;
+  margin: 0.5em 0;
   text-align: center;
 }
 
@@ -35,7 +75,7 @@ h1 { font-weight: 100; padding: 0 0 0.5em 0; margin:0;}
   color: #800;
 }
 
-#canvas {
+.note-output {
   width: 100%; height: 200px;
   border: 1px solid #222;
 }
@@ -46,6 +86,15 @@ h1 { font-weight: 100; padding: 0 0 0.5em 0; margin:0;}
 }
 
 #panic {
+  font-family: "Helvetica Neue", Helvetica, sans-serif;
   font-size: 2em;
+  background: #c00;
+  color: #fff;
+  border-radius: 3px;
+  border: 1px solid #f00;
+}
+#panic:active {
+  background: #800;
+  border: 1px solid #800;
 }
 #clickable { height: 1000px; text-align: center; font-size: 3em; background: #ccc; color: #000;}
